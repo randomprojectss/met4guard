@@ -65,7 +65,7 @@
         end
     end
 
-    -- Fetch and parse JSON data with cache-busting
+    -- Function to fetch and parse JSON data with cache-busting
     local function fetchAndParseJson(url)
         local cacheBuster = tostring(os.time())
         local fullUrl = url .. "?t=" .. cacheBuster
@@ -143,8 +143,8 @@
         })
     end
 
-    // Check if the scriptKey is valid (redeemed) and HWID matches
-    refreshData() // Ensure data is fresh before checking
+    -- Check if the scriptKey is valid (redeemed) and HWID matches
+    refreshData() -- Ensure data is fresh before checking
     local whitelisted = isValidKeyAndHWID(scriptKey)
 
     if whitelisted then
@@ -180,15 +180,13 @@ end`;
         const blob = new Blob([luaScript], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
 
-        // Create a link element to download the file
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'script.lua'; // The filename to save as
-        document.body.appendChild(a);
-        a.click(); // Simulate a click to trigger the download
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url); // Clean up the Blob URL
-    });
+        // Trigger the download automatically
+        window.location.href = url;
+
+        // Clean up the Blob URL after a short delay
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100); // Wait for 100 milliseconds
     </script>
 </body>
 </html>
