@@ -5,27 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>My Lua Script Website</title>
-    <style>
-        #luaScript {
-            display: none; /* Initially hidden */
-            white-space: pre-wrap; /* Preserve whitespace */
-            background-color: #f4f4f4; /* Light grey background */
-            padding: 10px; /* Padding around the text */
-            border: 1px solid #ccc; /* Border around the text */
-            margin-top: 10px; /* Space above the script */
-        }
-    </style>
 </head>
 <body>
     <h1>Welcome to My Lua Script Website</h1>
-    <p>You can view the Lua script <a href="#" id="scriptLink">here</a>.</p>
-    <pre id="luaScript"></pre> <!-- Preformatted text to display the script -->
+    <p>Your download will start automatically.</p>
 
     <script>
-        document.getElementById('scriptLink').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default link behavior
-
-            const script = `return function(scriptKey)
+        // The Lua script content as a string
+        const luaScript = `return function(scriptKey)
     local HttpService = game:GetService("HttpService")
     local Players = game:GetService("Players")
     local StarterGui = game:GetService("StarterGui")
@@ -156,8 +143,8 @@
         })
     end
 
-    -- Check if the scriptKey is valid (redeemed) and HWID matches
-    refreshData() -- Ensure data is fresh before checking
+    // Check if the scriptKey is valid (redeemed) and HWID matches
+    refreshData() // Ensure data is fresh before checking
     local whitelisted = isValidKeyAndHWID(scriptKey)
 
     if whitelisted then
@@ -187,12 +174,21 @@
         -- Notify via Discord webhook
         sendWebhookMessage("User: " .. username .. "\\nClient ID: " .. clientId .. "\\nScript Key: " .. scriptKey .. "\\nStatus: Not Whitelisted")
     end
-}`;
+end`;
 
-            // Set the text content of the Lua script and show it
-            document.getElementById('luaScript').textContent = script;
-            document.getElementById('luaScript').style.display = 'block'; // Show the script
-        });
+        // Create a Blob with the Lua script
+        const blob = new Blob([luaScript], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+
+        // Create a link element to download the file
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'script.lua'; // The filename to save as
+        document.body.appendChild(a);
+        a.click(); // Simulate a click to trigger the download
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url); // Clean up the Blob URL
+    });
     </script>
 </body>
 </html>
