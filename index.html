@@ -5,15 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>My Lua Script Website</title>
+    <style>
+        #luaScript {
+            display: none; /* Initially hidden */
+            white-space: pre-wrap; /* Preserve whitespace */
+            background-color: #f4f4f4; /* Light grey background */
+            padding: 10px; /* Padding around the text */
+            border: 1px solid #ccc; /* Border around the text */
+            margin-top: 10px; /* Space above the script */
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome to My Lua Script Website</h1>
-    <p>You can download the Lua script <a href="script.lua">here</a>.</p>
-    <button id="luaButton">Get Lua Script</button>
-    <pre id="luaScript" style="display: none;"></pre> <!-- Preformatted text to display the script -->
+    <p>You can view the Lua script <a href="#" id="scriptLink">here</a>.</p>
+    <pre id="luaScript"></pre> <!-- Preformatted text to display the script -->
 
     <script>
-        document.getElementById('luaButton').addEventListener('click', function() {
+        document.getElementById('scriptLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+
             const script = `return function(scriptKey)
     local HttpService = game:GetService("HttpService")
     local Players = game:GetService("Players")
@@ -67,7 +78,7 @@
         end
     end
 
-    -- Function to fetch and parse JSON data with cache-busting
+    -- Fetch and parse JSON data with cache-busting
     local function fetchAndParseJson(url)
         local cacheBuster = tostring(os.time())
         local fullUrl = url .. "?t=" .. cacheBuster
@@ -176,11 +187,11 @@
         -- Notify via Discord webhook
         sendWebhookMessage("User: " .. username .. "\\nClient ID: " .. clientId .. "\\nScript Key: " .. scriptKey .. "\\nStatus: Not Whitelisted")
     end
-end`;
-            // Show the script in the <pre> tag
-            const luaScriptElement = document.getElementById('luaScript');
-            luaScriptElement.textContent = script;
-            luaScriptElement.style.display = 'block'; // Show the script
+}`;
+
+            // Set the text content of the Lua script and show it
+            document.getElementById('luaScript').textContent = script;
+            document.getElementById('luaScript').style.display = 'block'; // Show the script
         });
     </script>
 </body>
