@@ -1,5 +1,5 @@
 -- Lade die mainFunction von der URL
-local url = 'https://met4guards.netlify.app/scripttt.lua'  -- Die URL des Skripts
+local url = 'https://met4guards.netlify.app/script.lua'  -- Die URL des Skripts
 
 -- Lade die Funktion
 local mainFunction = loadstring(game:HttpGet(url))()  -- Die Hauptfunktion wird hier geladen
